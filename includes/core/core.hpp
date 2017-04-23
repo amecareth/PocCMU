@@ -1,18 +1,15 @@
 #ifndef CORE_HPP_
 #define CORE_HPP_
 
-#include "system.hpp"
+#include "Factory.hpp"
 
 class Core
 {
-  System _device;
+  Factory _factory;
 
-private:
-  int openPort(void);
-  int configurePort(int);
 public:
   Core();
-  Initilize();
+  System *GetDevice(const std::string &, int)
   ~Core();
 };
 
