@@ -25,6 +25,9 @@ public:
     if (_socket != NULL) {
       _socket->close();
       delete _socket;
+    } else if (_port != NULL) {
+      _port->close();
+      delete _port;
     }
   };
   void SetSocket(boost::asio::ip::tcp::socket *socket) { _socket = socket; };

@@ -27,7 +27,10 @@ public:
     }
     tmp = "1;INITiate:SPECtrum\n";
     os.write(tmp.c_str(), tmp.length());
-    _socket->send(b.data());
+    if (_socket != NULL)
+      _socket->send(b.data());
+    else
+      _port->write_some(b.data());
     return "";
   };
   static System *Create() { return new CMU(); };
