@@ -59,18 +59,7 @@ System *Core::GetDevice(const SerialMode &mode) {
   boost::array<char, 128> buf;
   size_t len = 1;
 
-  char c;
-
   for (;;) {
-    /*  boost::asio::read(*port, boost::asio::buffer(&c, 1));
-      switch (c) {
-      case '\r':
-        break;
-      case '\n':
-        std::cout << tmp;
-      default:
-        tmp += c;
-      }*/
     boost::system::error_code error;
 
     if (buf[len - 1] != '\n')

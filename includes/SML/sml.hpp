@@ -9,7 +9,6 @@ class SML : protected System {
 public:
   SML(){};
   ~SML(){};
-  void toto() { std::cout << "coucou\n"; };
   const std::string Request(const RFGenerate &conf) {
     boost::asio::streambuf b;
     std::ostream os(&b);
@@ -20,15 +19,11 @@ public:
     os.write(tmp.c_str(), tmp.length());
     tmp = "OUTP:STAT ON\n";
     os.write(tmp.c_str(), tmp.length());
-    _socket->send(b.data());
+    SendData(b);
     return "";
   };
 
   static System *Create() { return new SML(); };
-
-private:
-  int SendData(){};
-  void ProcessResponse(){};
 };
 
 #endif

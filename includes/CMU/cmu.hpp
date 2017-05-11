@@ -25,19 +25,44 @@ public:
       os.write(tmp.c_str(), tmp.length());
     } else {
     }
+    tmp = "1;INP:STAT " + conf.GetInput() + "\n";
+    os.write(tmp.c_str(), tmp.length());
     tmp = "1;INITiate:SPECtrum\n";
     os.write(tmp.c_str(), tmp.length());
-    if (_socket != NULL)
-      _socket->send(b.data());
-    else
-      _port->write_some(b.data());
+    SendData(b);
     return "";
   };
-  static System *Create() { return new CMU(); };
 
-private:
-  int SendData(){};
-  void ProcessResponse(){};
+  const std::string Request(RFResults &request) {
+    boost::asio::streambuf b;
+    std::ostream os(&b);
+    std::string tmp;
+
+    tmp = request.GetRequest();
+    os.write(tmp.c_str(), tmp.length());
+    SendData(b);
+    return ProcessResponse();
+  };
+
+  const std::string Request(const RFGenerate &conf) {
+    boost::asio::streambuf b;
+    std::ostream os(&b);
+    std::string tmp = "1;SOUR:RFG:TX:FREQ " +
+                      boost::lexical_cast<std::string>(conf.GetFreq()) +
+                      "MHz\n";
+    os.write(tmp.c_str(), tmp.length());
+    tmp = "1;OUTP:TX:STAT " + conf.GetOutput() + "\n";
+    os.write(tmp.c_str(), tmp.length());
+    tmp = "1;SOUR:RFG:TX:LEV " +
+          boost::lexical_cast<std::string>(conf.GetPow()) + ".0\n";
+    os.write(tmp.c_str(), tmp.length());
+    tmp = "1;INIT:RFG:TX\n";
+    os.write(tmp.c_str(), tmp.length());
+    SendData(b);
+    return "";
+  };
+
+  static System *Create() { return new CMU(); };
 };
 
 #endif
