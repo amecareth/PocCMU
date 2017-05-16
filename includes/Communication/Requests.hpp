@@ -9,9 +9,8 @@ class RFAnalyze {
   float _startF;
   float _stopF;
 
-  RFAnalyze();
-
 public:
+  RFAnalyze(){};
   RFAnalyze(const float centerFreq, const int level, const float span,
             const std::string input)
       : _centerFreq(centerFreq), _level(level), _span(span), _input(input){};
@@ -28,9 +27,8 @@ class RFGenerate {
   int _pow;
   std::string _output;
 
-  RFGenerate();
-
 public:
+  RFGenerate(){};
   RFGenerate(const float freq, const int pow) : _freq(freq), _pow(pow){};
   RFGenerate(const float freq, const int pow, const std::string output)
       : _freq(freq), _pow(pow), _output(output){};
@@ -43,9 +41,8 @@ public:
 class RFResults {
   std::map<std::string, std::string> _requests;
   const std::string _mode;
-
   RFResults();
-
+  
 public:
   RFResults(const std::string mode) : _mode(mode) {
     _requests["avg"] = "1;READ:ARR:SPEC:AVER?\n";

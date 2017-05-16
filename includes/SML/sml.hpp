@@ -9,19 +9,7 @@ class SML : protected System {
 public:
   SML(){};
   ~SML(){};
-  const std::string Request(const RFGenerate &conf) {
-    boost::asio::streambuf b;
-    std::ostream os(&b);
-    std::string tmp =
-        "FREQ " + boost::lexical_cast<std::string>(conf.GetFreq()) + "MHz\n";
-    os.write(tmp.c_str(), tmp.length());
-    tmp = "POW " + boost::lexical_cast<std::string>(conf.GetPow()) + "dBm\n";
-    os.write(tmp.c_str(), tmp.length());
-    tmp = "OUTP:STAT ON\n";
-    os.write(tmp.c_str(), tmp.length());
-    SendData(b);
-    return "";
-  };
+  const Result<RFGenerate> Request(const RFGenerate &conf);
 
   static System *Create() { return new SML(); };
 };
