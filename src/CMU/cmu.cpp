@@ -40,6 +40,31 @@ const Result<RFAnalyze> CMU::Request(RFResults &request) {
   return res;
 };
 
+ const Result<GSMNetworkIdentity> CMU::Request(const GSMNetworkIdentity &request)
+ {
+   Result<GSMNetworkIdentity> res;
+   boost::asio::streambuf b;
+   std::ostream os(&b);
+
+   std::string tmp = "2;CONF:NETW:IDEN:NCC " + request.GetNCC() + "\n";
+   os.write(tmp.c_str(), tmp.length());
+   tmp = "2;CONF:NETW:IDEN:MCC " + request.GetMCC() + "\n";
+   os.write(tmp.c_str(), tmp.length());
+   tmp = "2;CONF:NETW:IDEN:MNC:DIG " + request.GetMNCNbDigits() + "\n";
+   os.write(tmp.c_str(), tmp.length());
+   tmp = "2;CONF:NETW:IDEN:MNC " + request.GetMNC() + "\n";
+   os.write(tmp.c_str(), tmp.length());
+   tmp = "2;CONF:NETW:IDEN:BCC " + request.GetBCC() + "\n";
+   os.write(tmp.c_str(), tmp.length());
+   tmp = "2;CONF:NETW:IDEN:LAC " + request.GetLAC() + "\n";
+   os.write(tmp.c_str(), tmp.length());
+   tmp = "2;CONF:NETW:IDEN:CID " + request.GetCellID() + "\n";
+   os.write(tmp.c_str(), tmp.length());
+   SendData(b);
+   res.SetParam(request);
+   return res;
+ }
+
 const Result<RFGenerate> CMU::Request(const RFGenerate &conf) {
   Result<RFGenerate> res;
   boost::asio::streambuf b;

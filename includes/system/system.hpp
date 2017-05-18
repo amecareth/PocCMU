@@ -34,6 +34,7 @@ public:
   virtual const Result<RFGenerate> Request(const RFGenerate &conf){};
   virtual const Result<RFAnalyze> Request(const RFAnalyze &conf){};
   virtual const Result<RFAnalyze> Request(RFResults &request){};
+  virtual const Result<GSMNetworkIdentity> Request(const GSMNetworkIdentity &request){};
 };
 
 typedef System *(*CreateSys)(void);

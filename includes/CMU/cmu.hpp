@@ -16,6 +16,7 @@ public:
   const Result<RFAnalyze> Request(const RFAnalyze &conf);
   const Result<RFAnalyze> Request(RFResults &request);
   const Result<RFGenerate> Request(const RFGenerate &conf);
+  const Result<GSMNetworkIdentity> Request(const GSMNetworkIdentity &request);
   static System *Create() { return new CMU(); };
 };
 

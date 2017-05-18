@@ -38,18 +38,52 @@ public:
   ~RFGenerate(){};
 };
 
+class GSMNetworkIdentity {
+  std::string _ncc;
+  std::string _bcc;
+  std::string _mcc;
+  std::string _mncNbDigits;
+  std::string _mnc;
+  std::string _lac;
+  std::string _cellID;
+
+public:
+  GSMNetworkIdentity(){};
+  GSMNetworkIdentity(const std::string &ncc, const std::string &bcc,
+                     const std::string &mcc, const std::string &mncNbDigits,
+                     const std::string &mnc, const std::string &lac,
+                     const std::string &cellID)
+      : _ncc(ncc), _bcc(bcc), _mcc(mcc),_mncNbDigits(mncNbDigits), _mnc(mnc), _lac(lac),_cellID(cellID){};
+
+  void SetNCC(const std::string &newNCC){ _ncc = newNCC; };
+  void SetBCC(const std::string &newBCC){ _bcc = newBCC; };
+  void SetMCC(const std::string &newMCC){ _mcc = newMCC; };
+  void SetMNCNbDigits(const std::string &newMNCNbDigits){ _mncNbDigits = newMNCNbDigits; };
+  void SetMNC(const std::string &newMNC){ _mnc = newMNC; };
+  void SetLAC(const std::string &newLAC){ _lac = newLAC; };
+  void SetCellID(const std::string &newCellID){ _cellID = newCellID; };
+
+  const std::string GetNCC() const { return _ncc; };
+  const std::string GetBCC() const { return _bcc; };
+  const std::string GetMCC() const { return _mcc; };
+  const std::string GetMNCNbDigits() const { return _mncNbDigits; };
+  const std::string GetMNC() const { return _mnc; };
+  const std::string GetLAC() const { return _lac; };
+  const std::string GetCellID() const { return _cellID; };
+};
+
 class RFResults {
   std::map<std::string, std::string> _requests;
   const std::string _mode;
   RFResults();
-  
+
 public:
   RFResults(const std::string mode) : _mode(mode) {
     _requests["avg"] = "1;READ:ARR:SPEC:AVER?\n";
     _requests["max"] = "1;READ:ARR:SPEC:MAX?\n";
     _requests["min"] = "1;READ:ARR:SPEC:MIN?\n";
   };
-  const std::string GetRequest() { return _requests[_mode]; };
+  const std::string GetRequest(){ return _requests[_mode]; };
 };
 
 #endif
