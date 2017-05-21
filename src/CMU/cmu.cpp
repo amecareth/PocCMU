@@ -40,25 +40,61 @@ const Result<RFAnalyze> CMU::Request(RFResults &request) {
   return res;
 };
 
- const Result<GSMNetworkIdentity> CMU::Request(const GSMNetworkIdentity &request)
+void CMU::WriteNetInf(const GSMNetworkIdentity &request)
+{
+  boost::asio::streambuf b;
+  std::ostream os(&b);
+
+  std::string tmp = "2;CONF:NETW:IDEN:NCC " + request.GetNCC() + "\n";
+  os.write(tmp.c_str(), tmp.length());
+  tmp = "2;CONF:NETW:IDEN:MCC " + request.GetMCC() + "\n";
+  os.write(tmp.c_str(), tmp.length());
+  tmp = "2;CONF:NETW:IDEN:MNC:DIG two\n";
+  os.write(tmp.c_str(), tmp.length());
+  tmp = "2;CONF:NETW:IDEN:MNC " + request.GetMNC() + "\n";
+  os.write(tmp.c_str(), tmp.length());
+  tmp = "2;CONF:NETW:IDEN:BCC " + request.GetBCC() + "\n";
+  os.write(tmp.c_str(), tmp.length());
+  tmp = "2;CONF:NETW:IDEN:LAC " + request.GetLAC() + "\n";
+  os.write(tmp.c_str(), tmp.length());
+  tmp = "2;CONF:NETW:IDEN:CID " + request.GetCellID() + "\n";
+  os.write(tmp.c_str(), tmp.length());
+  SendData(b);
+}
+
+void CMU::WriteBAList(const GSMBAList &request)
+{
+  boost::asio::streambuf b;
+  std::ostream os(&b);
+
+  std::vector<std::string> cells = request.GetCells();
+  std::string tmp = "2;CONFigure:NETWork:BAList ";
+  for (int i = 0; i < 16; ++i)
+  {
+    if (i < cells.size())
+      tmp += cells[i];
+    else
+      tmp += "OFF";
+    if (i < 15)
+      tmp += ",";
+  }
+  tmp += "\n";
+  os.write(tmp.c_str(), tmp.length());
+  SendData(b);
+}
+
+const Result<EmissionCell> CMU::Request(const EmissionCell &request)
  {
-   Result<GSMNetworkIdentity> res;
+   Result<EmissionCell> res;
    boost::asio::streambuf b;
    std::ostream os(&b);
 
-   std::string tmp = "2;CONF:NETW:IDEN:NCC " + request.GetNCC() + "\n";
+   _gsmConf = request;
+   WriteNetInf(request.GetNetId());
+   WriteBAList(request.GetBAList());
+   std::string tmp = "2;CONF:BSS:CCH:TX:CHAN " + request.GetChannel() + "\n";
    os.write(tmp.c_str(), tmp.length());
-   tmp = "2;CONF:NETW:IDEN:MCC " + request.GetMCC() + "\n";
-   os.write(tmp.c_str(), tmp.length());
-   tmp = "2;CONF:NETW:IDEN:MNC:DIG " + request.GetMNCNbDigits() + "\n";
-   os.write(tmp.c_str(), tmp.length());
-   tmp = "2;CONF:NETW:IDEN:MNC " + request.GetMNC() + "\n";
-   os.write(tmp.c_str(), tmp.length());
-   tmp = "2;CONF:NETW:IDEN:BCC " + request.GetBCC() + "\n";
-   os.write(tmp.c_str(), tmp.length());
-   tmp = "2;CONF:NETW:IDEN:LAC " + request.GetLAC() + "\n";
-   os.write(tmp.c_str(), tmp.length());
-   tmp = "2;CONF:NETW:IDEN:CID " + request.GetCellID() + "\n";
+   tmp = "2;CONF:BSS:CCH:TX:LEV:ABS " + request.GetLevel() + "dBm\n";
    os.write(tmp.c_str(), tmp.length());
    SendData(b);
    res.SetParam(request);
