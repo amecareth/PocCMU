@@ -4,6 +4,7 @@
 #include "Factory.hpp"
 
 class Core {
+  boost::asio::ip::tcp::socket *_socket
   Factory _factory;
 
 public:
