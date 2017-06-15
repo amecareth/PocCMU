@@ -98,10 +98,10 @@ public:
 
 class RFResults {
   std::map<std::string, std::string> _requests;
-  const std::string _mode;
-  RFResults();
+  std::string _mode;
 
 public:
+  RFResults(){};
   RFResults(const std::string mode) : _mode(mode) {
     _requests["avg"] = "1;READ:ARR:SPEC:AVER?\n";
     _requests["max"] = "1;READ:ARR:SPEC:MAX?\n";

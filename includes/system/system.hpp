@@ -23,7 +23,6 @@ public:
   virtual ~System() {
     if (_socket != NULL) {
       _socket->close();
-      delete _socket;
     } else if (_port != NULL) {
       _port->close();
       delete _port;

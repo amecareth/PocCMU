@@ -2,9 +2,11 @@
 #define CORE_HPP_
 
 #include "Factory.hpp"
+#include <iostream>
+
+using boost::asio::ip::tcp;
 
 class Core {
-  boost::asio::ip::tcp::socket *_socket
   Factory _factory;
 
 public:

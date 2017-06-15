@@ -1,6 +1,4 @@
 #include "../../includes/core/core.hpp"
-#include <iostream>
-using boost::asio::ip::tcp;
 
 System *Core::GetDevice(const TCPMode &mode) {
   boost::asio::io_service io_service;
@@ -18,6 +16,7 @@ System *Core::GetDevice(const TCPMode &mode) {
   std::string tmp;
 
   boost::array<char, 128> buf;
+  buf.assign(0);
   size_t len = 1;
 
   for (;;) {
@@ -58,10 +57,10 @@ System *Core::GetDevice(const SerialMode &mode) {
 
   boost::array<char, 128> buf;
   size_t len = 1;
+  std::cout << "TMP = " + tmp << std::endl;
 
   for (;;) {
     boost::system::error_code error;
-
     if (buf[len - 1] != '\n')
       len = port->read_some(boost::asio::buffer(buf), error);
     else

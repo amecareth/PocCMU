@@ -3,7 +3,7 @@ project(poccmu)
 cmake_minimum_required(VERSION 2.6)
 add_definitions(-Wall -Wextra -Wignored-qualifiers)
 
-add_definitions(-g)
+add_definitions(-g3)
 
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED OFF)
