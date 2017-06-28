@@ -1,7 +1,6 @@
 #include "../../includes/core/core.hpp"
 
 System *Core::GetDevice(const TCPMode &mode) {
-  boost::asio::io_service io_service;
 
   tcp::resolver resolver(io_service);
   tcp::resolver::query query(mode.GetIp(), mode.GetPort());
@@ -37,7 +36,7 @@ System *Core::GetDevice(const TCPMode &mode) {
 }
 
 System *Core::GetDevice(const SerialMode &mode) {
-  boost::asio::io_service io_service;
+//boost::asio::io_service io_service;
   boost::asio::serial_port *port =
       new boost::asio::serial_port(io_service, mode.GetPort());
   port->set_option(boost::asio::serial_port_base::baud_rate(9600));

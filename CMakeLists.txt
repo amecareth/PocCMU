@@ -26,9 +26,13 @@ set(HPP_FILES
     includes/core/core.hpp
     includes/core/Factory.hpp
     includes/system/system.hpp
+    includes/system/Service.hpp
 
     includes/SML/sml.hpp
     includes/CMU/cmu.hpp
+
+    includes/json/json.h
+    includes/json/json-forwards.h
 )
 
 set(CPP_FILES
@@ -36,7 +40,9 @@ set(CPP_FILES
     src/CMU/cmu.cpp
     src/SML/sml.cpp
     src/system/system.cpp
+    src/system/Service.cpp
     src/core/Factory.cpp
+    src/Extra/jsoncpp.cpp
     main.cpp
 )
 
@@ -47,4 +53,3 @@ add_executable(poccmu ${HPP_FILES} ${CPP_FILES})
 
 target_link_libraries(poccmu ${Boost_LIBRARIES}
 			     pthread)
-
